@@ -1,0 +1,31 @@
+{
+  "name": "nativescript-wechat-share",
+  "version": "0.1.1",
+  "description": "A NativeScript module providing Wechat share for Android and iOS",
+  "main": "wechat-share.js",
+  "nativescript": {
+    "platforms": {
+      "ios": "1.3.0"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linzhiqi/nativescript-wechat-share"
+  },
+  "keywords": [
+    "NativeScript"
+  ],
+  "author": {
+    "name": "Zhiqi Lin",
+    "email": "linzhiqi07@gmail.com"
+  },
+  "license": {
+    "type": "",
+    "url": "https://github.com/linzhiqi/nativescript-wechat-share/blob/master/LICENSE"
+  },
+  "bugs": {
+    "url": "https://github.com/linzhiqi/nativescript-wechat-share/issues"
+  },
+  "homepage": "https://github.com/linzhiqi/nativescript-wechat-share",
+  "readmeFilename": "README.md"
+}
