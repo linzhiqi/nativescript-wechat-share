@@ -3,11 +3,15 @@
 Now only iOS is supported.
 Android is not supported because WeChat SDK requires an acitivity is defined under the same package of the main project while the NativeScript does not support this now(v1.4).
 
-### How to use
+## How to use
 
-Firstly, add the plugin by ```tns plugin add nativescript-wechat-share```.
+#### add the plugin
 
-Secondly open the iOS project in XCode and do configurations shown below:
+by ```tns plugin add nativescript-wechat-share```.
+
+#### configuration in Xcode
+
+Open the iOS project in XCode and do configurations shown below:
 1. add libraries that the WeChat SDK depends on by Target->Build Phases->Link Binary With Libraries: 
     - CoreTelephony.framework
     - libc++.tbd
@@ -37,8 +41,10 @@ Secondly open the iOS project in XCode and do configurations shown below:
     - NSAppTransportSecurity is set to NSAllowsArbitraryLoads so that the iOS will not force you use https exclusively
     - If you want this default high security setting NSAppTransportSecurity brings, you can use NSExceptionDomains instead of NSAllowsArbitraryLoads, and and pingma.qq.com as a whitelisted domain name.
 
-Thirdly, customize the logic for the handlOpenUrl and openUrl methods of your UIApplicationDelegate, so that it is handled by WXApi.handleOpenURLDelegate. So you will have a app.ios.ts similar to this:
-```
+#### Prepare codes before sharing
+
+1. customize the logic for the handlOpenUrl and openUrl methods of your UIApplicationDelegate, so that it is handled by WXApi.handleOpenURLDelegate. So you will have a app.ios.ts similar to this:
+    ```
 var application = require("application");
 var wechatPlugin = require("nativescript-wechat-share");
 application.mainModule = "main-page";
@@ -57,26 +63,40 @@ class MyDelegate extends UIResponder implements UIApplicationDelegate  {
 
 application.ios.delegate = MyDelegate;
 application.start();
-```
+    ```
 
-Fourthly, register the callback function to handle the response code returned by WeChat app like this:
-```
+2. register the callback function to handle the response code returned by WeChat app like this:
+    ```
 var wechatPlugin = require("nativescript-wechat-share");
 wechatPlugin.registerOnRespCallback(function(code){
-            alert("!!!!!onResp: errCode="+code);
+    if (code == wechatPlugin.RespCodeEnum.Success) {
+        alert("the url is shared successfully");
+    } else {
+        alert("share url failed with errCode: " + code);
+    }
 });
-```
-And register your app before you really do the sharing:
-```
+    ```
+
+3. register your app(only once) before you really do the sharing:
+    ```
 var wechatPlugin = require("nativescript-wechat-share");
 wechatPlugin.registerApp("Your-App-ID");
-```
+    ```
+
+#### Do the sharing
 
 Finally you can do the sharing when needed:
 ```
-// share to the timeline
+var wechatPlugin = require("nativescript-wechat-share");
+// share an URL to the timeline
 wechatPlugin.shareUrl("the title", "the description", thumbImage, "the url", wechatPlugin.ShareToEnum.Timeline);
 // or send to a friend
-//wechatPlugin.shareUrl("the title", "the description", thumbImage, "the url", wechatPlugin.ShareToEnum.Chat);
+// wechatPlugin.shareUrl("the title", "the description", thumbImage, "the url", wechatPlugin.ShareToEnum.Chat);
+// or save to favorite
+// wechatPlugin.shareUrl("the title", "the description", thumbImage, "the url", wechatPlugin.ShareToEnum.Favorite);
+// or share text
+// wechatPlugin.shareText("the text", wechatPlugin.ShareToEnum.Timeline);
+// or share image
+// wechatPlugin.shareImage(image, thumbImage, wechatPlugin.ShareToEnum.Timeline);
 ```
 
