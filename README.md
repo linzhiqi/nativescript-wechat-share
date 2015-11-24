@@ -5,26 +5,26 @@ Android is not supported because WeChat SDK requires an acitivity is defined und
 
 ## How to use
 
-#### add the plugin
+#### Add the plugin
 
 by ```tns plugin add nativescript-wechat-share```.
 
-#### configuration in Xcode
+#### Configurations in Xcode
 
 Open the iOS project in XCode and do configurations shown below:
-1. add libraries that the WeChat SDK depends on by Target->Build Phases->Link Binary With Libraries: 
+1. Add libraries that the WeChat SDK depends on by Target->Build Phases->Link Binary With Libraries: 
     - CoreTelephony.framework
     - libc++.tbd
     - libsqlite3.0.tbd
     - libz.tbd
     - SystemConfiguration.framework
 
-2. add URL Scheme for WeChat so your app can communication with WeChat app
+2. Add URL Scheme for WeChat so your app can communication with WeChat app
     - go to Target-> Info -> URL Types
     - click the + button and add a new scheme: identifier = weixin, URL Schemes = APP-ID
     - APP-ID is the APPID you got from WeChat after you registered your application on WeChat OpenApi dashboard: https://open.weixin.qq.com/
 
-3. add below into your Info.plist, you can find the file in Xcode's project navigator->project-name->project-name->Supporting Files->project-name-Info.plist  
+3. Add below into your Info.plist, you can find the file in Xcode's project navigator->project-name->project-name->Supporting Files->project-name-Info.plist  
       ```
 <key>LSApplicationQueriesSchemes</key>
 <array>
@@ -43,7 +43,7 @@ Open the iOS project in XCode and do configurations shown below:
 
 #### Prepare codes before sharing
 
-1. customize the logic for the handlOpenUrl and openUrl methods of your UIApplicationDelegate, so that it is handled by WXApi.handleOpenURLDelegate. So you will have a app.ios.ts similar to this:
+1. Customize the logic for the handlOpenUrl and openUrl methods of your UIApplicationDelegate, so that it is handled by WXApi.handleOpenURLDelegate. So you will have a app.ios.ts similar to this:
     ```
 var application = require("application");
 var wechatPlugin = require("nativescript-wechat-share");
@@ -65,7 +65,7 @@ application.ios.delegate = MyDelegate;
 application.start();
     ```
 
-2. register the callback function to handle the response code returned by WeChat app like this:
+2. Register the callback function to handle the response code returned by WeChat app like this:
     ```
 var wechatPlugin = require("nativescript-wechat-share");
 wechatPlugin.registerOnRespCallback(function(code){
@@ -77,7 +77,7 @@ wechatPlugin.registerOnRespCallback(function(code){
 });
     ```
 
-3. register your app(only once) before you really do the sharing:
+3. Register your app(only once) before you really do the sharing:
     ```
 var wechatPlugin = require("nativescript-wechat-share");
 wechatPlugin.registerApp("Your-App-ID");
